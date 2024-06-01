@@ -1,17 +1,7 @@
 import pyxel as px
 
 class Game:
-    '''
-    CLASSE DO JOGO PONG
 
-    Constantes:
-    - Medidas dos pads: 25 x 120
-    - Raio da bola: 10
-
-    Pyxres:
-    - Bola: (0,0)
-    - Pad: (25, 0)
-    '''
     def __init__(self):
         
         px.init(1000, 600, 'Pong')
@@ -19,7 +9,6 @@ class Game:
         px.mouse(True)
         # Constantes
         self.const = {'radius': 15, 'width': 30, 'height': 150}
-
 
         # Inicialização dos pads --------------------------
         self.pad_left_x = self.const['width']
