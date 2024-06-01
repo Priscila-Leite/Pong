@@ -1,2 +1,2 @@
 # Pong Pyxel
- Jogo Pong feito com Python usando a biblioteca Pyxel.
+Jogo Pong feito com Python usando a biblioteca Pyxel.
