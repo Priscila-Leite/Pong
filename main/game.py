@@ -8,34 +8,35 @@ class Game:
         px.load('./game.pyxres')
         px.mouse(True)
         # Constantes
-        self.const = {'radius': 15, 'width': 30, 'height': 150}
+        self.const = {'radius': 15, 'width': 30, 'height': 150, 'speed': 10}
 
         # Inicialização dos pads --------------------------
         self.pad_left_x = self.const['width']
         self.pad_left_y = px.height/2 - self.const['height']/2
+        self.pad_left_score = 0
+
         self.pad_right_x = px.width - self.const['width']*2
         self.pad_right_y = px.height/2 - self.const['height']/2
-        self.pads_speed = 10
+        self.pad_right_score = 0
         # -------------------------------------------------
 
         # Inicialização da bola ---------------------------
         self.ball_x = px.width/2 - 10
         self.ball_y = px.height/2 - 10
-        self.ball_speed_x = 10
-        self.ball_speed_y = 10
+        self.ball_speed_x = self.ball_speed_y = 8
         # -------------------------------------------------
 
         px.run(self.update, self.draw)
 
     def move_pads(self):
         if px.btn(px.KEY_W):
-            self.pad_left_y -= self.pads_speed
+            self.pad_left_y -= self.const['speed']
         if px.btn(px.KEY_S):
-            self.pad_left_y += self.pads_speed
+            self.pad_left_y += self.const['speed']
         if px.btn(px.KEY_UP):
-            self.pad_right_y -= self.pads_speed
+            self.pad_right_y -= self.const['speed']
         if px.btn(px.KEY_DOWN):
-            self.pad_right_y += self.pads_speed
+            self.pad_right_y += self.const['speed']
 
         if self.pad_left_y <= 0:
             self.pad_left_y = 0
@@ -57,11 +58,11 @@ class Game:
 
         # Ball x Walls ------------------------------------
         if self.ball_x >= px.width:
-            print('Ponto para esquerda')
+            self.pad_left_score += 1
             self.ball_x = px.width/2 + self.const['radius']
             self.ball_y = px.height/2 + self.const['radius']
         if self.ball_x <= 0:
-            print('Ponto para direita')
+            self.pad_right_score += 1
             self.ball_x = px.width/2 + self.const['radius']
             self.ball_y = px.height/2 + self.const['radius']
         if self.ball_y >= px.height or self.ball_y <= 0:
@@ -89,6 +90,20 @@ class Game:
         px.circ(self.ball_x, self.ball_y, self.const['radius'], 8)
         px.rect(self.pad_left_x, self.pad_left_y, self.const['width'], self.const['height'], 2)
         px.rect(self.pad_right_x, self.pad_right_y, self.const['width'], self.const['height'], 2)
+
+        # Scores
+        q = len(str(self.pad_left_score))
+        e = q
+        for n in str(self.pad_left_score):
+            px.blt(px.width/3 - q * 10 - e * 5, 20, 1, int(n)*10, 0, 10, 15, 7)
+            q -= 1
+            e -= 1
+        q = len(str(self.pad_right_score))
+        e = q
+        for n in str(self.pad_right_score):
+            px.blt(2*px.width/3 - q * 10 - e * 5, 20, 1, int(n)*10, 0, 10, 15, 7)
+            q -= 1
+            e -= 1
 
 
 
