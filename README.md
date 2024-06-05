@@ -1,7 +1,9 @@
 # Pong Pyxel
+
 Jogo Pong feito com Python usando a biblioteca Pyxel.
 
-## To-do:
+## To-do
+
 - [x] Inicializar bola, pads e fundo
 - [x] Movimento dos pads
 - [x] Física da bola
@@ -16,4 +18,3 @@ Jogo Pong feito com Python usando a biblioteca Pyxel.
     - [ ] Som (booleano)
     - [ ] Voltar
     - [ ] Salvar
-
