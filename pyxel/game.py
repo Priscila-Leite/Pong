@@ -3,12 +3,14 @@ import pyxel as px
 # Adicionar opção de 1 ou 2 players
 class Game():
 
-    def __init__(self, players):
+    def __init__(self):
         self.pause = True
         # Constantes
-        self.const = {'radius': 15, 'width': 30, 'height': 150, 'speed': 10}
+        self.const = {'radius': 15, 'width': 30, 'height': 150, 'speed': 11}
 
         # Inicialização dos pads --------------------------
+        self.players = None
+
         self.pad_left_x = self.const['width']
         self.pad_left_y = px.height/2 - self.const['height']/2
         self.pad_left_score = 0
@@ -21,7 +23,6 @@ class Game():
         # Inicialização da bola ---------------------------
         self.ball_x = px.width/2 - 10
         self.ball_y = px.height/2 - 10
-        self.ball_speed_x = self.ball_speed_y = 8
         # -------------------------------------------------
 
     def move_pads(self):
@@ -29,10 +30,18 @@ class Game():
             self.pad_left_y -= self.const['speed']
         if px.btn(px.KEY_S):
             self.pad_left_y += self.const['speed']
-        if px.btn(px.KEY_UP):
-            self.pad_right_y -= self.const['speed']
-        if px.btn(px.KEY_DOWN):
-            self.pad_right_y += self.const['speed']
+        
+        if self.players == 2:
+            if px.btn(px.KEY_UP):
+                self.pad_right_y -= self.const['speed']
+            if px.btn(px.KEY_DOWN):
+                self.pad_right_y += self.const['speed']
+        elif self.players == 1:
+            if self.ball_x > 4/5 * px.width:
+                if self.pad_right_y + 10 > self.ball_y:
+                    self.pad_right_y -= self.const['speed']
+                elif self.pad_right_y + self.const['height'] - 10 < self.ball_y:
+                    self.pad_right_y += self.const['speed']
 
         if self.pad_left_y <= 0:
             self.pad_left_y = 0
@@ -47,9 +56,9 @@ class Game():
     def collision_ball(self):
         # Ball x Pads -------------------------------------
         if self.ball_x - self.const['radius'] <= self.pad_left_x + self.const['width'] and self.pad_left_y <= self.ball_y <= self.pad_left_y + self.const['height']:
-            self.ball_speed_x *= -1
+            self.const['speed'] *= -1
         if self.ball_x + self.const['radius'] >= self.pad_right_x and self.pad_right_y <= self.ball_y <= self.pad_right_y + self.const['height']:
-            self.ball_speed_x *= -1
+            self.const['speed'] *= -1
         # -------------------------------------------------
 
         # Ball x Walls ------------------------------------
@@ -64,17 +73,17 @@ class Game():
             self.ball_y = px.height/2 + self.const['radius']
             self.pause = True
         if self.ball_y >= px.height or self.ball_y <= 0:
-            self.ball_speed_y *= -1
+            self.const['speed'] *= -1
         # -------------------------------------------------
     
     def move_ball(self):
         if self.pause:
             return
-        self.ball_x += self.ball_speed_x
-        self.ball_y += self.ball_speed_y
+        self.ball_x += self.const['speed']
+        self.ball_y += self.const['speed']
 
         if 0 >= self.ball_y - self.const['radius'] or self.ball_y + self.const['radius'] >= px.height:
-            self.ball_speed_y *= -1
+            self.const['speed'] *= -1
 
     def update_game(self):
         if px.btnp(px.KEY_SPACE):
@@ -92,8 +101,6 @@ class Game():
         px.rect(self.pad_right_x, self.pad_right_y, self.const['width'], self.const['height'], 8)
 
         # Scores
-        px.text(20, 20, "Texto normal", 7)
-        px.text(20, 40, "Texto escalado", 7)
         q = len(str(self.pad_left_score))
         e = q
         for n in str(self.pad_left_score):

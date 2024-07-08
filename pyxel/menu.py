@@ -12,7 +12,7 @@ class Menu():
         px.init(1000, 600, 'Pong', quit_key=px.KEY_ESCAPE)
         px.load('./game.pyxres')
         px.mouse(True)
-        self.game = Game(2)
+        self.game = Game()
         self.screen = None
         self.BUTTONS = {
             'width': 210,
@@ -30,7 +30,11 @@ class Menu():
         if px.btnp(px.KEY_ESCAPE):
             px.quit
 
-        if px.btnp(px.KEY_2):
+        if px.btnp(px.KEY_0):
+            self.game.players = 1
+            px.run(self.game.update_game, self.game.draw_game)
+        if px.btnp(px.KEY_1):
+            self.game.players = 2
             px.run(self.game.update_game, self.game.draw_game)
     
     def draw_menu(self):
