@@ -30,15 +30,16 @@ class Menu():
         if px.btnp(px.KEY_ESCAPE):
             px.quit
 
-        if px.btnp(px.KEY_0):
+        """ if px.btnp(px.KEY_0):
             self.game.players = 1
             px.run(self.game.update_game, self.game.draw_game)
         if px.btnp(px.KEY_1):
             self.game.players = 2
-            px.run(self.game.update_game, self.game.draw_game)
+            px.run(self.game.update_game, self.game.draw_game) """
     
     def draw_menu(self):
-        px.cls(14)
+        px.cls(0)
+
 
         self.update_buttons()
         
@@ -49,8 +50,14 @@ class Menu():
                 px.rect(self.BUTTONS['x'], self.BUTTONS['1 player'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['select'])
             else:
                 px.rect(self.BUTTONS['x'], self.BUTTONS['1 player'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['unselect'])
+            if self.BUTTONS['2 players'] <= px.mouse_y <= self.BUTTONS['2 players'] + self.BUTTONS['height']:
+                px.rect(self.BUTTONS['x'], self.BUTTONS['2 players'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['select'])
+            else:
+                px.rect(self.BUTTONS['x'], self.BUTTONS['2 players'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['unselect'])
         else:
                 px.rect(self.BUTTONS['x'], self.BUTTONS['1 player'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['unselect'])
-
+                px.rect(self.BUTTONS['x'], self.BUTTONS['2 players'], self.BUTTONS['width'], self.BUTTONS['height'], self.BUTTONS['unselect'])
+        
+Menu()
 
     

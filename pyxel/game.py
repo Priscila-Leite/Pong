@@ -23,6 +23,8 @@ class Game():
         # Inicialização da bola ---------------------------
         self.ball_x = px.width/2 - 10
         self.ball_y = px.height/2 - 10
+        self.ball_speed_x = self.const['speed']
+        self.ball_speed_y = self.const['speed']
         # -------------------------------------------------
 
     def move_pads(self):
@@ -55,10 +57,30 @@ class Game():
 
     def collision_ball(self):
         # Ball x Pads -------------------------------------
-        if self.ball_x - self.const['radius'] <= self.pad_left_x + self.const['width'] and self.pad_left_y <= self.ball_y <= self.pad_left_y + self.const['height']:
+        """ if self.ball_x - self.const['radius'] <= self.pad_left_x + self.const['width'] and self.pad_left_y <= self.ball_y <= self.pad_left_y + self.const['height']:
             self.const['speed'] *= -1
         if self.ball_x + self.const['radius'] >= self.pad_right_x and self.pad_right_y <= self.ball_y <= self.pad_right_y + self.const['height']:
-            self.const['speed'] *= -1
+            self.const['speed'] *= -1  """
+
+        if self.ball_x - self.const['radius'] <= self.pad_left_x + self.const['width']:
+            if self.pad_left_y <= self.ball_y < self.pad_left_y + self.const['height']/3:
+                self.ball_speed_x = abs(self.ball_speed_x)
+                self.ball_speed_y = -abs(self.ball_speed_y)
+            elif self.pad_left_y + self.const['height']/3 <= self.ball_y <= self.pad_left_y + 2 * self.const['height']/3:
+                self.ball_speed_x = abs(self.ball_speed_x)
+            elif self.pad_left_y + 2 * self.const['height']/3 < self.ball_y <= self.pad_left_y + self.const['height']:
+                self.ball_speed_x = abs(self.ball_speed_x)
+                self.ball_speed_y = abs(self.ball_speed_y)
+        elif self.ball_x + self.const['radius'] >= self.pad_right_x:
+            if self.pad_right_y <= self.ball_y < self.pad_right_y + self.const['height']/3:
+                self.ball_speed_x = -abs(self.ball_speed_x)
+                self.ball_speed_y = -abs(self.ball_speed_y)
+            elif self.pad_right_y + self.const['height']/3 <= self.ball_y <= self.pad_right_y + 2 * self.const['height']/3:
+                self.ball_speed_x = -abs(self.ball_speed_x)
+            elif self.pad_right_y + 2 * self.const['height']/3 < self.ball_y <= self.pad_right_y + self.const['height']:
+                self.ball_speed_x = -abs(self.ball_speed_x)
+                self.ball_speed_y = abs(self.ball_speed_y)
+                
         # -------------------------------------------------
 
         # Ball x Walls ------------------------------------
@@ -73,17 +95,17 @@ class Game():
             self.ball_y = px.height/2 + self.const['radius']
             self.pause = True
         if self.ball_y >= px.height or self.ball_y <= 0:
-            self.const['speed'] *= -1
+            self.ball_speed_y *= -1
         # -------------------------------------------------
     
     def move_ball(self):
         if self.pause:
             return
-        self.ball_x += self.const['speed']
-        self.ball_y += self.const['speed']
+        self.ball_x += self.ball_speed_x
+        self.ball_y += self.ball_speed_y
 
         if 0 >= self.ball_y - self.const['radius'] or self.ball_y + self.const['radius'] >= px.height:
-            self.const['speed'] *= -1
+            self.ball_speed_y *= -1
 
     def update_game(self):
         if px.btnp(px.KEY_SPACE):
