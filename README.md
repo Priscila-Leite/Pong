@@ -9,8 +9,8 @@ Jogo Pong feito com Python usando a biblioteca Pyxel.
 - [x] Física da bola
 - [x] Pontuação
 - [ ] Menu:
-  - [ ] 1 player
-  - [ ] 2 players
+  - [x] 1 player
+  - [x] 2 players
   - [ ] Configurações:
     - [ ] Velocidade inicial
     - [ ] Mudança de velocidade (booleano)
