@@ -4,8 +4,8 @@ Jogo Pong feito com Python usando a biblioteca Pyxel.
 
 ## To-do
 
-- [ ] Inicializar bola, pads e fundo
-- [ ] Movimento dos pads
+- [x] Inicializar bola, pads e fundo
+- [x] Movimento dos pads
 - [ ] Física da bola
 - [ ] Pontuação
 - [ ] Menu:
